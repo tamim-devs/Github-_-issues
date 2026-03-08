@@ -1,80 +1,84 @@
 const tabs = document.querySelectorAll(".tab");
-const container = document.getElementById("issues-container")
+const container = document.getElementById("issues-container");
+const search = document.getElementById("search");
 const priorityColors = {
   low: "#9CA3AF",
   medium: "rgba(251, 255, 0, 0.38)",
-  high: "rgba(255,0,0,0.5)"
+  high: "rgba(255,0,0,0.5)",
 };
-tabs.forEach(tab => {
+let issues = [];
+
+search.addEventListener("input", searchIssue);
+
+tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
-    tabs.forEach(t => {
-      t.classList.remove("tab-active","bg-violet-600","text-white");
-      t.classList.add("bg-white","text-gray-500");
+    tabs.forEach((t) => {
+      t.classList.remove("tab-active", "bg-violet-600", "text-white");
+      t.classList.add("bg-white", "text-gray-500");
     });
 
-    tab.classList.add("tab-active","bg-violet-600","text-white");
-    tab.classList.remove("bg-white","text-gray-500");
+    tab.classList.add("tab-active", "bg-violet-600", "text-white");
+    tab.classList.remove("bg-white", "text-gray-500");
   });
 });
 
-function setActive(button){
-console.log(button);
+function setActive(button) {
+  console.log(button);
 
-let buttons = document.querySelectorAll(".tab-btn")
+  let buttons = document.querySelectorAll(".tab-btn");
 
-buttons.forEach(btn => btn.classList.remove("active"))
+  buttons.forEach((btn) => btn.classList.remove("active"));
 
-button.classList.add("active")
-
+  button.classList.add("active");
 }
 
-async function fetchIssues(){
-container.innerHTML = "Loading..."
-const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
-const result = await res.json()
+async function fetchIssues() {
+  container.innerHTML = "Loading...";
+  const res = await fetch(
+    "https://phi-lab-server.vercel.app/api/v1/lab/issues",
+  );
+  const result = await res.json();
 
-issues = result.data
+  issues = result.data;
 
-loadIssues(issues)
-
+  loadIssues(issues);
 }
 
-function filterIssues(type){
+function filterIssues(type) {
+  let filtered = [];
 
-let filtered = []
+  if (type === "all") {
+    filtered = issues;
+  } else if (type === "open") {
+    filtered = issues.filter((issue) => issue.status === "open");
+  } else if (type === "closed") {
+    filtered = issues.filter((issue) => issue.status === "closed");
+  }
 
-if(type === "all"){
-filtered = issues
+  loadIssues(filtered);
 }
+function loadIssues(data) {
+  console.log(data);
+  updateIssueCount(data);
+  container.innerHTML = "";
 
-else if(type === "open"){
-filtered = issues.filter(issue => issue.status === "open")
-}
+  data.forEach((issue) => {
+    let borderColor = issue.status === "open" ? "#00A96E" : "#A855F7";
 
-else if(type === "closed"){
-filtered = issues.filter(issue => issue.status === "closed")
-}
-
-loadIssues(filtered)
-
-}function loadIssues(data){
-console.log(data);
-
-container.innerHTML = ""
-
-data.forEach(issue => {
-
-let borderColor = issue.status === "open" ? "green" : "purple"
-let priority = priorityColors[issue.priority];
-container.innerHTML += `
+    let priority = priorityColors[issue.priority];
+    let priorityItem =
+      issue.priority === "low"
+        ? `<img src="assets/Closed- Status .png" class="w-4 h-4">`
+        : `<img src="assets/Open-Status.png" class="w-4 h-4">`;
+    container.innerHTML += `
 
 <label for="issue_modal" class="block bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300  p-5 cursor-pointer" style="border-top:4px solid ${borderColor}">
    <div class="flex items-center justify-between gap-2 mb-4">
    <div>
-   <img src="assets/Open-Status.png" class="w-4 h-4 inline-block mr-1">
+ ${priorityItem}
    </div>
    <div> 
-   <span class="flex items-center gap-1  text-red-700 text-xs font-medium px-3 py-1 rounded-full" style="background-color: ${priority}">
+   <span class="flex items-center gap-1   text-xs font-medium px-3 py-1 rounded-full" style="background-color: ${priority}; ">
      ${issue.priority}
     </span></div>
    </div>
@@ -143,9 +147,31 @@ container.innerHTML += `
 
  
 
-`
-
-})
-
+`;
+  });
 }
-fetchIssues()
+
+async function searchIssue() {
+  let value = document.getElementById("search").value.trim();
+
+  if (value === "") {
+    fetchIssues();
+    return;
+  }
+
+  try {
+    const res = await fetch(
+      `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${value}`,
+    );
+    const result = await res.json();
+
+    loadIssues(result.data);
+  } catch (error) {
+    console.log("Search error:", error);
+  }
+}
+function updateIssueCount(data) {
+  const countElement = document.getElementById("issue-count");
+  countElement.innerText = `${data.length} Issues`;
+}
+fetchIssues();
