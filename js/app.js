@@ -1,6 +1,10 @@
 const tabs = document.querySelectorAll(".tab");
 const container = document.getElementById("issues-container")
-
+const priorityColors = {
+  low: "#9CA3AF",
+  medium: "rgba(251, 255, 0, 0.38)",
+  high: "rgba(255,0,0,0.5)"
+};
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
     tabs.forEach(t => {
@@ -61,22 +65,83 @@ container.innerHTML = ""
 data.forEach(issue => {
 
 let borderColor = issue.status === "open" ? "green" : "purple"
-
+let priority = priorityColors[issue.priority];
 container.innerHTML += `
 
-<div class="card" onclick="showDetails(${issue.id})" style="border-top:4px solid ${borderColor}">
+<label for="issue_modal" class="block bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300  p-5 cursor-pointer" style="border-top:4px solid ${borderColor}">
+   <div class="flex items-center justify-between gap-2 mb-4">
+   <div>
+   <img src="assets/Open-Status.png" class="w-4 h-4 inline-block mr-1">
+   </div>
+   <div> 
+   <span class="flex items-center gap-1  text-red-700 text-xs font-medium px-3 py-1 rounded-full" style="background-color: ${priority}">
+     ${issue.priority}
+    </span></div>
+   </div>
+  <h3 class="text-lg font-semibold text-gray-800 mb-2 leading-5">
+    ${issue.title}
+  </h3>
 
-<h3>${issue.title}</h3>
+  <p class="text-gray-600 text-sm mb-4">
+  ${issue.description}
+  </p>
 
-<p>${issue.description}</p>
+  <div class="flex gap-2 mb-4">
 
-<span class="tag">${issue.status}</span>
+    <span class="flex items-center gap-1 bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full">
+      <img src="assets/BugDroid.png" class="w-4 h-4">
+      ${issue.priority}
+    </span>
 
-<p>#${issue.id} by ${issue.author}</p>
+    <span class="flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-medium px-3 py-1 rounded-full">
+      <img src="assets/Lifebuoy.png" class="w-4 h-4">
+      Bug
+    </span>
 
-<p>${new Date(issue.createdAt).toLocaleDateString()}</p>
+  </div>
 
+  <div class="flex justify-between text-xs text-gray-400">
+    <p>#12 by Tanvir</p>
+    <p>07/03/2026</p>
+  </div>
+
+</label>
+
+
+<!-- Modal -->
+<input type="checkbox" id="issue_modal" class="modal-toggle" />
+
+<div class="modal" role="dialog">
+  <div class="modal-box">
+
+    <h3 class="text-xl leading-7 font-bold mb-2">
+      ${issue.title}
+    </h3>
+
+    <p class="text-gray-600 mb-4">
+      ${issue.description}
+    </p>
+    </p>
+
+    <div class="flex gap-2 mb-4">
+
+      <span class="badge badge-error">Open</span>
+      <span class="badge badge-warning">Bug</span>
+
+    </div>
+
+    <div class="text-sm text-gray-400 mb-4">
+      Issue #12 • Created by Tanvir • 07/03/2026
+    </div>
+
+    <div class="modal-action">
+      <label for="issue_modal" class="btn">Close</label>
+    </div>
+
+  </div>
 </div>
+
+ 
 
 `
 
