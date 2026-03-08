@@ -47,17 +47,17 @@
   <main class="mx-auto rounded-lg w-11/12 ">
    <div class="mt-14 rounded-lg bg-white py-3  mb-4">
   <div class="tabs tabs-boxed space-x-2 ml-2 ">
-    <a id="all-tab"
+    <a  onclick="setActive(this); filterIssues('all')" id="all-tab"
       class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
      ">
       All
     </a>
-     <a id="open-tab"
+     <a  onclick="setActive(this); filterIssues('open')" id="open-tab"
       class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
      ">
       Open
     </a>
-     <a id="closed-tab"
+     <a  onclick="setActive(this); filterIssues('closed')" id="closed-tab"
       class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
      ">
       Closed
