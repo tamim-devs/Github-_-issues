@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Daisy  UI + Tailwind CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Bug Tracker</title>
+
+</head>
+<body class="bg-gray-100">
+ <header>
+    <nav>
+        <div class="navbar bg-base-100 shadow-sm flex items-center justify-around">
+  <div class="flex items-center gap-2">
+    <div class="rounded-full w-10 h-10">
+        <img src="assets/github-logo.png" alt="">
+    </div>
+    <a class="btn btn-ghost text-xl">GitHub Issues Tracker</a>
+  </div>
+  <div class="flex gap-2">
+  <label class="input">
+  <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2.5"
+      fill="none"
+      stroke="currentColor"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </g>
+  </svg>
+  <input type="search" required placeholder="Search" />
+</label>
+    <div class="dropdown dropdown-end">
+    <button class="btn btn-primary text-nowrap">+ New Issue</button>
+      </div>
+     
+    </div>
+  </div>
+</div>
+    </nav>  
+  </header>
+  <main class="mx-auto rounded-lg w-11/12 ">
+   <div class="mt-14 rounded-lg bg-white py-3  mb-4">
+  <div class="tabs tabs-boxed space-x-2 ml-2 ">
+    <a id="all-tab"
+      class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
+     ">
+      All
+    </a>
+     <a id="open-tab"
+      class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
+     ">
+      Open
+    </a>
+     <a id="closed-tab"
+      class="tab tab-active py-3 font-bold rounded outline  bg-violet-600 text-white 
+     ">
+      Closed
+    </a>
+  </div>
+  </div>
+
+
+
+<!-- Track and manage your project issues -->
+
+  <div class="w-full bg-white rounded-xl px-6 py-4 flex items-center justify-between">
+  
+  <!-- Left Side -->
+  <div class="flex items-center gap-3">
+    
+    <!-- Icon -->
+    <div class="w-10 h-10 flex items-center justify-center bg-purple-100 text-purple-600 rounded-full">
+      <!-- simple icon -->
+      <img src="assets/Aperture.png" alt="">
+    </div>
+
+    <!-- Text -->
+    <div>
+      <h2 class="text-gray-800 font-semibold text-sm">50 Issues</h2>
+      <p class="text-gray-500 text-xs">Track and manage your project issues</p>
+    </div>
+
+  </div>
+
+  <!-- Right Side -->
+  <div class="flex items-center gap-6 text-sm text-gray-600">
+
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+      <span>Open</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 bg-purple-500 rounded-full"></span>
+      <span>Closed</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="issues-container" class="grid md:grid-cols-3 sm:grid-cols-2 bg-white bottom-1 border-gray-400 gap-6 p-6 mt-8 rounded-xl">
+
+  <!-- Issue Card -->
+<!-- Issue Card (Click to open modal) -->
+<label for="issue_modal" class="block bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 border-t-4 border-blue-500 p-5 cursor-pointer">
+    
+  <h3 class="text-lg font-semibold text-gray-800 mb-2 leading-5">
+    Fix navigation menu on mobile devices
+  </h3>
+
+  <p class="text-gray-600 text-sm mb-4">
+    The navigation menu doesn't collapse properly on mobile devices...
+  </p>
+
+  <div class="flex gap-2 mb-4">
+
+    <span class="flex items-center gap-1 bg-red-100 text-red-700 text-xs font-medium px-3 py-1 rounded-full">
+      <img src="assets/BugDroid.png" class="w-4 h-4">
+      Open
+    </span>
+
+    <span class="flex items-center gap-1 bg-yellow-100 text-yellow-700 text-xs font-medium px-3 py-1 rounded-full">
+      <img src="assets/Lifebuoy.png" class="w-4 h-4">
+      Bug
+    </span>
+
+  </div>
+
+  <div class="flex justify-between text-xs text-gray-400">
+    <p>#12 by Tanvir</p>
+    <p>07/03/2026</p>
+  </div>
+
+</label>
+
+
+<!-- Modal -->
+<input type="checkbox" id="issue_modal" class="modal-toggle" />
+
+<div class="modal" role="dialog">
+  <div class="modal-box">
+
+    <h3 class="text-xl leading-7 font-bold mb-2">
+      Fix navigation menu on mobile devices
+    </h3>
+
+    <p class="text-gray-600 mb-4">
+      The navigation menu doesn't collapse properly on mobile devices. 
+      When the screen size is small, menu items overflow outside the navbar.
+    </p>
+
+    <div class="flex gap-2 mb-4">
+
+      <span class="badge badge-error">Open</span>
+      <span class="badge badge-warning">Bug</span>
+
+    </div>
+
+    <div class="text-sm text-gray-400 mb-4">
+      Issue #12 • Created by Tanvir • 07/03/2026
+    </div>
+
+    <div class="modal-action">
+      <label for="issue_modal" class="btn">Close</label>
+    </div>
+
+  </div>
+</div>
+
+  <!-- Issue Card -->
+  <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 border-t-4 border-green-500 p-5 cursor-pointer">
+    
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">
+      Navbar responsive issue
+    </h3>
+
+    <p class="text-gray-600 text-sm mb-4">
+      Navbar items overlap on small devices.
+    </p>
+
+    <span class="inline-block bg-green-100 text-green-700 text-xs font-medium px-3 py-1 rounded-full mb-4">
+      Closed
+    </span>
+
+    <div class="flex justify-between text-xs text-gray-400">
+      <p>#14 by Rahim</p>
+      <p>05/03/2026</p>
+    </div>
+
+  </div>
+
+</div>
+
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
